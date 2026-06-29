@@ -53,8 +53,8 @@ input, select, button {
 }
 
 input, select {
-    background: rgba(255,255,255,0.1);
-    color: black;
+    background: black;
+    color: white;
 }
 
 button {
@@ -234,7 +234,7 @@ async function submitRSVP() {
         const result = await res.json();
 
         if (result.duplicate) {
-            alert("You already RSVP’d!");
+            alert("You already RSVP'd!");
             return;
         }
 
