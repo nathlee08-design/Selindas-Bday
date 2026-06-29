@@ -128,7 +128,53 @@ a {
         <option value="No">Sorry, I can't make it 😢</option>
     </select>
 
-    <button onclick="submitRSVP()">
+    <button onclick="async function submitRSVP() {
+
+```
+const name =
+    document.getElementById("guestName").value.trim();
+
+const attendance =
+    document.getElementById("attendance").value;
+
+if (!name || !attendance) {
+    alert("Please enter your name and RSVP status.");
+    return;
+}
+
+const payload = {
+    name: name,
+    attendance: attendance
+};
+
+try {
+
+    await fetch(
+        "https://script.google.com/macros/s/AKfycbziFX-RTZ6k0n0-cvS0QcyUZAtDsLJfgXX5xqMNgnwYd_PrawgnEMs8Pn5mrC8VWs2Xhw/exec",
+        {
+            method: "POST",
+            body: JSON.stringify(payload)
+        }
+    );
+
+    document.getElementById("eventDetails").style.display =
+        "block";
+
+    if (attendance === "Yes") {
+        document.getElementById("message").innerHTML =
+            `🎉 Thanks <strong>${name}</strong>! We can't wait to celebrate with you!`;
+    } else {
+        document.getElementById("message").innerHTML =
+            `❤️ Thanks <strong>${name}</strong>. We'll miss you!`;
+    }
+
+} catch (error) {
+    alert("There was a problem submitting your RSVP.");
+}
+```
+
+}
+">
         Submit RSVP
     </button>
 
