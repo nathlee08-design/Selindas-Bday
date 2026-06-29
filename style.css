@@ -35,6 +35,25 @@ button:hover {
     transform: scale(1.05);
 }
 
+/* Runaway button styling */
+.runaway-btn {
+    position: fixed;
+    background: #ff6b6b;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: not-allowed;
+    transition: all 0.2s ease-out;
+    pointer-events: all;
+}
+
+.runaway-btn:hover {
+    background: #ff5252;
+}
+
 .secret-btn {
     padding: 25px 25px;
     font-size: 32px;

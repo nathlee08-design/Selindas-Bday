@@ -15,6 +15,53 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
+// Runaway button functionality
+const noButton = document.getElementById('noButton');
+if (noButton) {
+    // Track mouse movement to make button run away
+    document.addEventListener('mousemove', function(e) {
+        const button = document.getElementById('noButton');
+        if (!button) return;
+        
+        const buttonRect = button.getBoundingClientRect();
+        const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+        const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+        
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        
+        // Calculate distance between mouse and button
+        const distX = buttonCenterX - mouseX;
+        const distY = buttonCenterY - mouseY;
+        const distance = Math.sqrt(distX * distX + distY * distY);
+        
+        // If mouse is close to button (within 100px), make it run away
+        if (distance < 100) {
+            const angle = Math.atan2(distY, distX);
+            const speed = 150;
+            const newX = buttonCenterX + Math.cos(angle) * speed - buttonRect.width / 2;
+            const newY = buttonCenterY + Math.sin(angle) * speed - buttonRect.height / 2;
+            
+            // Keep button within viewport
+            const constrainedX = Math.max(0, Math.min(newX, window.innerWidth - buttonRect.width));
+            const constrainedY = Math.max(0, Math.min(newY, window.innerHeight - buttonRect.height));
+            
+            button.style.left = constrainedX + 'px';
+            button.style.top = constrainedY + 'px';
+        }
+    });
+    
+    // Prevent clicking the No button
+    noButton.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        return false;
+    });
+    
+    // Initial position
+    noButton.style.left = (window.innerWidth / 2 - 50) + 'px';
+    noButton.style.top = (window.innerHeight / 2 + 50) + 'px';
+}
+
 // Heart animation function
 function createHearts() {
     const hearts = ['❤️', '💖', '💝', '💕', '💗'];
@@ -98,18 +145,18 @@ function playFallbackMusic() {
     }
 }
 
-// RSVP logic - play music and effects for BOTH YES responses
+// RSVP logic - play music and effects for YES
 function rsvp(isYes) {
-    // Play BTS BUTTER for both responses
+    // Play BTS BUTTER
     playButter();
     
-    // Create heart animations for both responses
+    // Create heart animations
     createHearts();
     
-    // Play confetti for both responses
+    // Play confetti
     confetti();
     
-    // Set consent for both Yes buttons
+    // Set consent
     sessionStorage.setItem('selindaConsent', 'yes');
 
     // Navigate to the details/map page where the secret input lives
