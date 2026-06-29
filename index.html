@@ -2,266 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Selinda's 40th Birthday 🎉</title>
+<link rel="stylesheet" href="style.css">
 
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #1a1a2e, #0f0f1a);
-    min-height: 100vh;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    color: black;
-}
-
-.container {
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(10px);
-    max-width: 650px;
-    width: 100%;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 0 25px rgba(255,0,150,0.4);
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-h1 {
-    color: #ff4fd8;
-    text-shadow: 0 0 10px #ff4fd8;
-}
-
-#countdown {
-    font-size: 26px;
-    font-weight: bold;
-    color: #00f7ff;
-    text-shadow: 0 0 10px #00f7ff;
-    margin-bottom: 15px;
-}
-
-input, select, button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    border-radius: 12px;
-    border: none;
-    font-size: 15px;
-}
-
-input, select {
-    background: black;
-    color: white;
-}
-
-button {
-    background: linear-gradient(90deg, #ff4fd8, #00f7ff);
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:hover {
-    opacity: 0.9;
-}
-
-#eventDetails {
-    display: none;
-    margin-top: 20px;
-}
-
-.details {
-    background: rgba(255,255,255,0.08);
-    padding: 15px;
-    border-radius: 15px;
-}
-
-.counter {
-    margin-top: 10px;
-    font-weight: bold;
-    color: #00f7ff;
-}
-</style>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 
-<body>
+<body class="neon-bg">
 
 <div class="container">
 
-<h1>🎉 Selinda's 40th Birthday 🎉</h1>
+<h1>Welcome to Selinda's 40th Birthday 🎂</h1>
 
 <div id="countdown"></div>
-<div class="counter" id="liveCount">Loading guests...</div>
 
-<input id="guestName" placeholder="Your name">
+<h2>Will you attend?</h2>
 
-<select id="attendance">
-<option value="">Attending?</option>
-<option value="Yes">Yes 🎊</option>
-<option value="Yes">Yes >:) </option>
-</select>
-
-<select id="meal">
-<option value="">Meal preferences</option>
-<option value="Korean BBQ">Korean BBQ 🍖</option>
-<option value="Fried Chicken">Fried Chicken 🍗</option>
-<option value="Veg">Vegetarian 🥬</option>
-<option value="tteokbokki">tteokbokki </option>
-<option value="Noodles">Noods </option>    
-</select>
-
-<select id="plusOne">
-<option value="">Plus one?</option>
-<option value="0">No</option>
-<option value="1">1 person</option>
-</select>
-
-<button onclick="submitRSVP()">Submit RSVP</button>
-
-<div id="eventDetails">
-
-<h2>Thank you 💖</h2>
-<p id="message"></p>
-
-<div class="details">
-📍 Tiger Korean Pocha, Haymarket<br>
-🕠 5:30 PM
-</div>
-
-<iframe
-src="https://maps.google.com/maps?q=Tiger%20Korean%20Pocha%20Haymarket&output=embed"
-width="100%" height="250" style="border:0;border-radius:15px;"></iframe>
+<button onclick="rsvp(true)">Yes 💖</button>
+<button onclick="rsvp(false)">Yes! 😏</button>
 
 </div>
 
-</div>
-
-<!-- CONFETTI LIB -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-<async function submitRSVP() {
-
-    const name = document.getElementById("guestName").value.trim();
-    const attendance = document.getElementById("attendance").value;
-
-    if (!name || !attendance) {
-        alert("Please enter your name and RSVP status.");
-        return;
-    }
-
-    try {
-        await fetch("YOUR_GOOGLE_SCRIPT_URL_HERE", {
-            method: "POST",
-            body: JSON.stringify({
-                name,
-                attendance
-            })
-        });
-
-        document.getElementById("eventDetails").style.display = "block";
-
-        if (attendance === "Yes") {
-            document.getElementById("message").innerHTML =
-                `🎉 ${name}! We can't wait to celebrate with you!`;
-        } else {
-            document.getElementById("message").innerHTML =
-                `❤️ Thanks ${name}, we'll miss you!`;
-        }
-
-    } catch (error) {
-        alert("There was a problem submitting your RSVP.");
-        console.error(error);
-    }>
-
-// 🔥 CONFIG
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbziFX-RTZ6k0n0-cvS0QcyUZAtDsLJfgXX5xqMNgnwYd_PrawgnEMs8Pn5mrC8VWs2Xhw/exec";
-const partyDate = new Date("October 17, 2026 17:30:00").getTime();
-
-// ⏳ COUNTDOWN
-setInterval(() => {
-    const now = new Date().getTime();
-    const d = partyDate - now;
-
-    if (d < 0) return document.getElementById("countdown").innerHTML = "🎉 LIVE NOW";
-
-    const days = Math.floor(d / (1000*60*60*24));
-    const hours = Math.floor((d%(1000*60*60*24))/(1000*60*60));
-    const mins = Math.floor((d%(1000*60*60))/(1000*60));
-    const secs = Math.floor((d%(1000*60))/1000);
-
-    document.getElementById("countdown").innerHTML =
-    `${days}d ${hours}h ${mins}m ${secs}s`;
-}, 1000);
-
-
-// 📊 LIVE RSVP COUNT (from sheet)
-async function loadCount() {
-    try {
-        const res = await fetch(SHEET_URL + "?action=count");
-        const data = await res.json();
-        document.getElementById("liveCount").innerText =
-            `🎟️ ${data.count || 0} guests attending`;
-    } catch {
-        document.getElementById("liveCount").innerText =
-            "🎟️ RSVP list loading...";
-    }
-}
-loadCount();
-
-
-// 🎊 RSVP
-async function submitRSVP() {
-
-    const name = document.getElementById("guestName").value.trim();
-    const attendance = document.getElementById("attendance").value;
-    const meal = document.getElementById("meal").value;
-    const plusOne = document.getElementById("plusOne").value;
-
-    if (!name || !attendance || !meal || plusOne === "") {
-        alert("Please complete all fields!");
-        return;
-    }
-
-    try {
-        const res = await fetch(SHEET_URL, {
-            method: "POST",
-            body: JSON.stringify({ name, attendance, meal, plusOne })
-        });
-
-        const result = await res.json();
-
-        if (result.duplicate) {
-            alert("You already RSVP'd!");
-            return;
-        }
-
-        document.getElementById("eventDetails").style.display = "block";
-
-        document.getElementById("message").innerHTML =
-        attendance === "Yes"
-        ? `🎉 Welcome <b>${name}</b>! See you there!`
-        : `💖 Thanks <b>${name}</b>!`;
-
-        if (attendance === "Yes") {
-            confetti({
-                particleCount: 150,
-                spread: 80,
-                origin: { y: 0.6 }
-            });
-        }
-
-        loadCount();
-
-    } catch (e) {
-        alert("Error sending RSVP.");
-        console.error(e);
-    }
-}
-
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
