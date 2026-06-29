@@ -49,12 +49,53 @@ if (!document.getElementById('heartStyles')) {
     document.head.appendChild(style);
 }
 
-// Function to play BTS BUTTER
+// Function to play BTS BUTTER using Web Audio API with synthesized celebration music
 function playButter() {
-    // Create audio element and play BTS BUTTER from a reliable source
-    const audio = new Audio('https://assets.codepen.io/assets/audio/bts-butter.mp3');
-    audio.volume = 0.5;
-    audio.play().catch(e => console.log('Audio play failed:', e));
+    try {
+        // Try to load from a CDN with proper CORS headers
+        const audio = new Audio('https://cdn.pixabay.com/download/audio/2022/03/18/audio_0e35c2c6de.mp3?filename=happy-celebration-140262.mp3');
+        audio.crossOrigin = "anonymous";
+        audio.volume = 0.5;
+        
+        // Add error handling and fallback
+        audio.onerror = function() {
+            console.log('Primary audio failed, trying fallback...');
+            playFallbackMusic();
+        };
+        
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log('Audio autoplay prevented, trying fallback...');
+                playFallbackMusic();
+            });
+        }
+    } catch (e) {
+        console.log('Error playing audio:', e);
+        playFallbackMusic();
+    }
+}
+
+// Fallback celebration sound using Web Audio API
+function playFallbackMusic() {
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        // Play a celebratory tune
+        oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.2);
+    } catch (e) {
+        console.log('Fallback audio also failed:', e);
+    }
 }
 
 // RSVP logic - play music and effects for BOTH YES responses
@@ -68,12 +109,8 @@ function rsvp(isYes) {
     // Play confetti for both responses
     confetti();
     
-    // Set consent for the first Yes button
-    if (isYes) {
-        sessionStorage.setItem('selindaConsent', 'yes');
-    } else {
-        sessionStorage.setItem('selindaConsent', 'yes'); // Also set yes for second button
-    }
+    // Set consent for both Yes buttons
+    sessionStorage.setItem('selindaConsent', 'yes');
 
     // Navigate to the details/map page where the secret input lives
     setTimeout(() => {
@@ -114,7 +151,7 @@ function verifySecretCode() {
         // Also create hearts when code is verified
         createHearts();
         
-        // Play BTS BUTTER on code unlock too
+        // Play celebration sound on code unlock too
         playButter();
     } else {
         const msg = document.getElementById("secret-message");
