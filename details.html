@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Details ✨</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="neon-bg">
+
+<div class="container">
+
+<h1>📍 Venue Details</h1>
+
+<p>
+Tiger Korean Pocha @ Haymarket
+</p>
+
+<iframe
+width="100%"
+height="300"
+style="border:0"
+loading="lazy"
+src="https://www.google.com/maps?q=Tiger%20Korean%20Pocha%20Haymarket&output=embed">
+</iframe>
+
+<h2>👗 What to wear</h2>
+<p>Dress code will unlock after secret access 👀</p>
+
+<button onclick="checkDressCode()">Unlock secret dress code</button>
+
+<div id="secret" style="display:none;">
+<h3>SECRET: Wear CROCS 👟</h3>
+<p>We must match Selinda on the day 😂</p>
+</div>
+
+<a href="gallery.html">Go to Photo Gallery →</a>
+
+</div>
+
+<script>
+function checkDressCode() {
+    const code = prompt("Enter invite code:");
+    if (code === "rachelisnotcool") {
+        document.getElementById("secret").style.display = "block";
+        confetti();
+    } else {
+        alert("Nope 😌");
+    }
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+</body>
+</html>
