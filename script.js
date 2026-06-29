@@ -57,23 +57,22 @@ function playButter() {
     audio.play().catch(e => console.log('Audio play failed:', e));
 }
 
-// RSVP logic - store consent and navigate to details page
+// RSVP logic - play music and effects for BOTH YES responses
 function rsvp(isYes) {
+    // Play BTS BUTTER for both responses
+    playButter();
+    
+    // Create heart animations for both responses
+    createHearts();
+    
+    // Play confetti for both responses
+    confetti();
+    
+    // Set consent for the first Yes button
     if (isYes) {
-        // per-tab/session consent; switch to localStorage if you want persistence across browser restarts
         sessionStorage.setItem('selindaConsent', 'yes');
-        
-        // Play BTS BUTTER
-        playButter();
-        
-        // Create heart animations
-        createHearts();
-        
-        // Still play confetti
-        confetti();
     } else {
-        // optional: explicitly clear consent on a 'no' response
-        sessionStorage.removeItem('selindaConsent');
+        sessionStorage.setItem('selindaConsent', 'yes'); // Also set yes for second button
     }
 
     // Navigate to the details/map page where the secret input lives
