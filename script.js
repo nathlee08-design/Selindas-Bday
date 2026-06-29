@@ -15,11 +15,68 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
+// Heart animation function
+function createHearts() {
+    const hearts = ['❤️', '💖', '💝', '💕', '💗'];
+    for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.position = 'fixed';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.top = '-10px';
+        heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+        heart.style.pointerEvents = 'none';
+        heart.style.zIndex = '9999';
+        heart.style.animation = `heartFall ${Math.random() * 2 + 2}s linear forwards`;
+        document.body.appendChild(heart);
+        
+        setTimeout(() => heart.remove(), 3000);
+    }
+}
+
+// Add heart animation keyframes to document
+if (!document.getElementById('heartStyles')) {
+    const style = document.createElement('style');
+    style.id = 'heartStyles';
+    style.innerHTML = `
+        @keyframes heartFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Function to play BTS BUTTER
+function playButter() {
+    // Using YouTube link for BTS BUTTER
+    const audio = new Audio('https://www.youtube.com/watch?v=PSZxmS9f8hE');
+    // Note: Direct YouTube links won't work due to CORS. Using alternative audio source.
+    const butterAudio = document.getElementById('butterAudio');
+    if (butterAudio) {
+        // You can replace this with the actual BTS BUTTER audio URL
+        butterAudio.src = 'https://stream.spotify.com/...'; // Spotify doesn't allow direct playback
+        // Alternative: Use a royalty-free celebration music or embed from a music service
+        const celebrationAudio = new Audio('https://cdn.pixabay.com/download/audio/2022/03/18/audio_0e35c2c6de.mp3?filename=happy-celebration-140262.mp3');
+        celebrationAudio.play().catch(e => console.log('Audio play failed:', e));
+    }
+}
+
 // RSVP logic - store consent and navigate to details page
 function rsvp(isYes) {
     if (isYes) {
         // per-tab/session consent; switch to localStorage if you want persistence across browser restarts
         sessionStorage.setItem('selindaConsent', 'yes');
+        
+        // Play BTS BUTTER
+        playButter();
+        
+        // Create heart animations
+        createHearts();
+        
+        // Still play confetti
         confetti();
     } else {
         // optional: explicitly clear consent on a 'no' response
@@ -27,7 +84,9 @@ function rsvp(isYes) {
     }
 
     // Navigate to the details/map page where the secret input lives
-    window.location.href = 'details.html';
+    setTimeout(() => {
+        window.location.href = 'details.html';
+    }, 1500);
 }
 
 // Show secret code access button (unused in current flow but kept for compatibility)
@@ -42,7 +101,7 @@ function showSecretAccess() {
 function verifySecretCode() {
     const codeInput = document.getElementById("secret-code");
     const code = codeInput ? codeInput.value : '';
-    const secretCode = "rachelisnotcool"; // Change this to your desired secret code
+    const secretCode = "rachelisnotcool"; // Secret code for dress code reveal
     
     if (code === secretCode) {
         const msg = document.getElementById("secret-message");
@@ -59,6 +118,9 @@ function verifySecretCode() {
         const btn = document.querySelector("button[onclick='verifySecretCode()']");
         if (btn) btn.style.display = "none";
         if (typeof confetti === 'function') confetti();
+        
+        // Also create hearts when code is verified
+        createHearts();
     } else {
         const msg = document.getElementById("secret-message");
         if (msg) {
