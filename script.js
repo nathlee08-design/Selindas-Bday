@@ -15,39 +15,56 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// RSVP logic - show venue after YES
+// RSVP logic - store consent and navigate to details page
 function rsvp(isYes) {
-    // Hide RSVP section and show venue section
-    document.getElementById("rsvp-section").style.display = "none";
-    document.getElementById("venue-section").style.display = "block";
-    
     if (isYes) {
+        // per-tab/session consent; switch to localStorage if you want persistence across browser restarts
+        sessionStorage.setItem('selindaConsent', 'yes');
         confetti();
+    } else {
+        // optional: explicitly clear consent on a 'no' response
+        sessionStorage.removeItem('selindaConsent');
     }
+
+    // Navigate to the details/map page where the secret input lives
+    window.location.href = 'details.html';
 }
 
-// Show secret code access button
+// Show secret code access button (unused in current flow but kept for compatibility)
 function showSecretAccess() {
-    document.getElementById("venue-section").style.display = "none";
-    document.getElementById("secret-section").style.display = "block";
+    const venue = document.getElementById('venue-section');
+    const secret = document.getElementById('secret-section');
+    if (venue) venue.style.display = 'none';
+    if (secret) secret.style.display = 'block';
 }
 
 // Verify secret code for dress code reveal
 function verifySecretCode() {
-    const code = document.getElementById("secret-code").value;
+    const codeInput = document.getElementById("secret-code");
+    const code = codeInput ? codeInput.value : '';
     const secretCode = "glamorous"; // Change this to your desired secret code
     
     if (code === secretCode) {
-        document.getElementById("secret-message").textContent = "🎊 Code Accepted! Welcome to the Inner Circle 🎊";
-        document.getElementById("secret-message").style.display = "block";
-        document.getElementById("secret-message").style.color = "#00ff00";
-        document.getElementById("dress-code-section").style.display = "block";
-        document.getElementById("secret-code").style.display = "none";
-        document.querySelector("button[onclick='verifySecretCode()']").style.display = "none";
-        confetti();
+        const msg = document.getElementById("secret-message");
+        if (msg) {
+            msg.textContent = "🎊 Code Accepted! Welcome to the Inner Circle 🎊";
+            msg.style.display = "block";
+            msg.style.color = "#00ff00";
+        }
+
+        const dress = document.getElementById("dress-code-section");
+        if (dress) dress.style.display = "block";
+
+        if (codeInput) codeInput.style.display = "none";
+        const btn = document.querySelector("button[onclick='verifySecretCode()']");
+        if (btn) btn.style.display = "none";
+        if (typeof confetti === 'function') confetti();
     } else {
-        document.getElementById("secret-message").textContent = "❌ Incorrect code. Try again!";
-        document.getElementById("secret-message").style.display = "block";
-        document.getElementById("secret-message").style.color = "#ff0000";
+        const msg = document.getElementById("secret-message");
+        if (msg) {
+            msg.textContent = "❌ Incorrect code. Try again!";
+            msg.style.display = "block";
+            msg.style.color = "#ff0000";
+        }
     }
 }
