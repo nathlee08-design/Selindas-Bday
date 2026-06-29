@@ -15,20 +15,39 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// RSVP logic + password gate
+// RSVP logic - show venue after YES
 function rsvp(isYes) {
-    const code = prompt("Enter invite code:");
-
-    if (code !== "rachelisnotcool") {
-        alert("Sorry, invite only ✨");
-        return;
-    }
-
+    // Hide RSVP section and show venue section
+    document.getElementById("rsvp-section").style.display = "none";
+    document.getElementById("venue-section").style.display = "block";
+    
     if (isYes) {
         confetti();
-        window.location.href = "details.html";
+    }
+}
+
+// Show secret code access button
+function showSecretAccess() {
+    document.getElementById("venue-section").style.display = "none";
+    document.getElementById("secret-section").style.display = "block";
+}
+
+// Verify secret code for dress code reveal
+function verifySecretCode() {
+    const code = document.getElementById("secret-code").value;
+    const secretCode = "glamorous"; // Change this to your desired secret code
+    
+    if (code === secretCode) {
+        document.getElementById("secret-message").textContent = "🎊 Code Accepted! Welcome to the Inner Circle 🎊";
+        document.getElementById("secret-message").style.display = "block";
+        document.getElementById("secret-message").style.color = "#00ff00";
+        document.getElementById("dress-code-section").style.display = "block";
+        document.getElementById("secret-code").style.display = "none";
+        document.querySelector("button[onclick='verifySecretCode()']").style.display = "none";
+        confetti();
     } else {
-        alert("You still said yes 😌");
-        window.location.href = "details.html";
+        document.getElementById("secret-message").textContent = "❌ Incorrect code. Try again!";
+        document.getElementById("secret-message").style.display = "block";
+        document.getElementById("secret-message").style.color = "#ff0000";
     }
 }
