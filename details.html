@@ -26,30 +26,54 @@ src="https://www.google.com/maps?q=Tiger%20Korean%20Pocha%20Haymarket&output=emb
 <h2>👗 What to wear</h2>
 <p>Dress code will unlock after secret access 👀</p>
 
-<button onclick="checkDressCode()">Unlock secret dress code</button>
+<!-- Secret access area: input + button placed UNDER the map -->
+<div id="secret-access">
+  <!-- This placeholder is shown when user hasn't pressed Yes on the first page -->
+  <div id="secret-placeholder">Press Yes on the previous page to reveal the secret code input.</div>
 
-<div id="secret" style="display:none;">
-<h3>SECRET: Wear CROCS 👟</h3>
-<p>We must match Selinda on the day 😂</p>
+  <!-- The actual input/button — hidden by default and revealed when consent exists -->
+  <div id="secret-input-area" style="display:none; margin-top:1rem;">
+    <label for="secret-code">Enter invite code:</label>
+    <input id="secret-code" type="text" placeholder="Enter code" />
+    <button onclick="verifySecretCode()">Unlock</button>
+
+    <div id="secret-message" style="display:none; margin-top:0.5rem;"></div>
+
+    <!-- Dress code section revealed after successful code -->
+    <div id="dress-code-section" style="display:none; margin-top:1rem;">
+      <h3>SECRET: Wear CROCS 👟</h3>
+      <p>We must match Selinda on the day 😂</p>
+    </div>
+  </div>
 </div>
 
 <a href="gallery.html">Go to Photo Gallery →</a>
 
 </div>
 
-<script>
-function checkDressCode() {
-    const code = prompt("Enter invite code:");
-    if (code === "rachelisnotcool") {
-        document.getElementById("secret").style.display = "block";
-        confetti();
-    } else {
-        alert("Nope 😌");
-    }
-}
-</script>
-
+<!-- confetti library (needed by script.js) -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<!-- main site script -->
+<script src="script.js"></script>
+
+<script>
+// On load, reveal or hide the secret input area based on RSVP consent
+document.addEventListener('DOMContentLoaded', function () {
+  var consent = sessionStorage.getItem('selindaConsent') || localStorage.getItem('selindaConsent');
+  var inputArea = document.getElementById('secret-input-area');
+  var placeholder = document.getElementById('secret-placeholder');
+
+  if (consent === 'yes') {
+    // User pressed Yes on the first page — show the secret input under the map
+    inputArea.style.display = '';
+    placeholder.style.display = 'none';
+  } else {
+    // Keep the input hidden and show the placeholder; optionally you could redirect back to index.html
+    inputArea.style.display = 'none';
+    placeholder.style.display = '';
+  }
+});
+</script>
 
 </body>
 </html>
