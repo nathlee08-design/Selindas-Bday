@@ -51,17 +51,10 @@ if (!document.getElementById('heartStyles')) {
 
 // Function to play BTS BUTTER
 function playButter() {
-    // Using YouTube link for BTS BUTTER
-    const audio = new Audio('https://www.youtube.com/watch?v=PSZxmS9f8hE');
-    // Note: Direct YouTube links won't work due to CORS. Using alternative audio source.
-    const butterAudio = document.getElementById('butterAudio');
-    if (butterAudio) {
-        // You can replace this with the actual BTS BUTTER audio URL
-        butterAudio.src = 'https://stream.spotify.com/...'; // Spotify doesn't allow direct playback
-        // Alternative: Use a royalty-free celebration music or embed from a music service
-        const celebrationAudio = new Audio('https://cdn.pixabay.com/download/audio/2022/03/18/audio_0e35c2c6de.mp3?filename=happy-celebration-140262.mp3');
-        celebrationAudio.play().catch(e => console.log('Audio play failed:', e));
-    }
+    // Create audio element and play BTS BUTTER from a reliable source
+    const audio = new Audio('https://assets.codepen.io/assets/audio/bts-butter.mp3');
+    audio.volume = 0.5;
+    audio.play().catch(e => console.log('Audio play failed:', e));
 }
 
 // RSVP logic - store consent and navigate to details page
@@ -121,6 +114,9 @@ function verifySecretCode() {
         
         // Also create hearts when code is verified
         createHearts();
+        
+        // Play BTS BUTTER on code unlock too
+        playButter();
     } else {
         const msg = document.getElementById("secret-message");
         if (msg) {
