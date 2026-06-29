@@ -59,22 +59,32 @@ src="https://www.google.com/maps?q=Tiger%20Korean%20Pocha%20Haymarket&output=emb
 <script src="script.js"></script>
 
 <script>
-// On load, reveal or hide the secret input area based on RSVP consent
-document.addEventListener('DOMContentLoaded', function () {
+// Function to show/hide secret input area
+function updateSecretDisplay() {
   var consent = sessionStorage.getItem('selindaConsent') || localStorage.getItem('selindaConsent');
   var inputArea = document.getElementById('secret-input-area');
   var placeholder = document.getElementById('secret-placeholder');
 
   if (consent === 'yes') {
-    // User pressed Yes on the first page — show the secret input under the map
-    inputArea.style.display = '';
-    placeholder.style.display = 'none';
+    // User pressed Yes on the first page — show the secret input
+    if (inputArea) inputArea.style.display = 'block';
+    if (placeholder) placeholder.style.display = 'none';
   } else {
-    // Keep the input hidden and show the placeholder; optionally you could redirect back to index.html
-    inputArea.style.display = 'none';
-    placeholder.style.display = '';
+    // Keep the input hidden
+    if (inputArea) inputArea.style.display = 'none';
+    if (placeholder) placeholder.style.display = 'block';
   }
-});
+}
+
+// Run on page load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', updateSecretDisplay);
+} else {
+  updateSecretDisplay();
+}
+
+// Also run after a short delay to ensure DOM is fully ready
+setTimeout(updateSecretDisplay, 100);
 </script>
 
 </body>
