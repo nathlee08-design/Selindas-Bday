@@ -42,7 +42,7 @@ function showSecretAccess() {
 function verifySecretCode() {
     const codeInput = document.getElementById("secret-code");
     const code = codeInput ? codeInput.value : '';
-    const secretCode = "glamorous"; // Change this to your desired secret code
+    const secretCode = "rachelisnotcool"; // Change this to your desired secret code
     
     if (code === secretCode) {
         const msg = document.getElementById("secret-message");
