@@ -8,94 +8,81 @@
 <style>
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #ff6b81, #f9ca24);
+    background: radial-gradient(circle at top, #1a1a2e, #0f0f1a);
     min-height: 100vh;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    color: white;
 }
 
 .container {
-    background: white;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
     max-width: 650px;
     width: 100%;
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 0 25px rgba(255,0,150,0.4);
     text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 h1 {
-    color: #e84393;
-    margin-bottom: 10px;
-}
-
-.subtitle {
-    color: #666;
-    margin-bottom: 20px;
-}
-
-#countdownBox {
-    background: #fff4f8;
-    padding: 15px;
-    border-radius: 15px;
-    margin-bottom: 25px;
+    color: #ff4fd8;
+    text-shadow: 0 0 10px #ff4fd8;
 }
 
 #countdown {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: bold;
-    color: #e84393;
+    color: #00f7ff;
+    text-shadow: 0 0 10px #00f7ff;
+    margin-bottom: 15px;
 }
 
 input, select, button {
     width: 100%;
     padding: 12px;
     margin-top: 10px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    font-size: 16px;
-    box-sizing: border-box;
+    border-radius: 12px;
+    border: none;
+    font-size: 15px;
+}
+
+input, select {
+    background: rgba(255,255,255,0.1);
+    color: white;
 }
 
 button {
-    background: #e84393;
-    color: white;
-    border: none;
-    cursor: pointer;
+    background: linear-gradient(90deg, #ff4fd8, #00f7ff);
+    color: black;
     font-weight: bold;
+    cursor: pointer;
 }
 
 button:hover {
-    background: #d63384;
+    opacity: 0.9;
 }
 
 #eventDetails {
     display: none;
-    margin-top: 25px;
+    margin-top: 20px;
 }
 
 .details {
-    background: #fff4f8;
+    background: rgba(255,255,255,0.08);
     padding: 15px;
     border-radius: 15px;
-    margin-top: 15px;
 }
 
-iframe {
-    width: 100%;
-    height: 300px;
-    border: none;
-    border-radius: 15px;
-    margin-top: 15px;
-}
-
-a {
-    color: #e84393;
-    text-decoration: none;
+.counter {
+    margin-top: 10px;
     font-weight: bold;
+    color: #00f7ff;
 }
 </style>
 </head>
@@ -104,112 +91,142 @@ a {
 
 <div class="container">
 
-    <h1>🎉 Selinda's 40th Birthday 🎉</h1>
-    <p class="subtitle">Please RSVP below</p>
+<h1>🎉 Selinda's 40th Birthday 🎉</h1>
 
-    <div id="countdownBox">
-        <h2>⏳ Countdown to the Party</h2>
-        <div id="countdown"></div>
-    </div>
+<div id="countdown"></div>
+<div class="counter" id="liveCount">Loading guests...</div>
 
-    <input type="text" id="guestName" placeholder="Enter your name">
+<input id="guestName" placeholder="Your name">
 
-    <select id="attendance">
-        <option value="">Will you be attending?</option>
-        <option value="Yes">Yes, I'll be there! 🎊</option>
-        <option value="No">Sorry, I can't make it 😢</option>
-    </select>
+<select id="attendance">
+<option value="">Attending?</option>
+<option value="Yes">Yes 🎊</option>
+<option value="No">No 😢</option>
+</select>
 
-    <button onclick="submitRSVP()">Submit RSVP</button>
+<select id="meal">
+<option value="">Meal choice</option>
+<option value="Korean BBQ">Korean BBQ 🍖</option>
+<option value="Fried Chicken">Fried Chicken 🍗</option>
+<option value="Veg">Vegetarian 🥬</option>
+</select>
 
-    <div id="eventDetails">
+<select id="plusOne">
+<option value="">Plus one?</option>
+<option value="0">No</option>
+<option value="1">1 person</option>
+</select>
 
-        <h2>Thank You!</h2>
-        <p id="message"></p>
+<button onclick="submitRSVP()">Submit RSVP</button>
 
-        <div class="details">
-            <h3>📍 Event Details</h3>
-            <p><strong>Tiger Korean Pocha</strong></p>
-            <p>Haymarket, Sydney NSW</p>
-            <p>🕠 5:30 PM</p>
-        </div>
+<div id="eventDetails">
 
-        <iframe
-            src="https://maps.google.com/maps?q=Tiger%20Korean%20Pocha%20Haymarket&t=&z=15&ie=UTF8&iwloc=&output=embed">
-        </iframe>
+<h2>Thank you 💖</h2>
+<p id="message"></p>
 
-        <p>
-            <a href="https://www.google.com/maps/search/?api=1&query=Tiger+Korean+Pocha+Haymarket"
-               target="_blank">
-                Open in Google Maps
-            </a>
-        </p>
+<div class="details">
+📍 Tiger Korean Pocha, Haymarket<br>
+🕠 5:30 PM
+</div>
 
-    </div>
+<iframe
+src="https://maps.google.com/maps?q=Tiger%20Korean%20Pocha%20Haymarket&output=embed"
+width="100%" height="250" style="border:0;border-radius:15px;"></iframe>
 
 </div>
 
+</div>
+
+<!-- CONFETTI LIB -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <script>
-// Countdown
+
+// 🔥 CONFIG
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbziFX-RTZ6k0n0-cvS0QcyUZAtDsLJfgXX5xqMNgnwYd_PrawgnEMs8Pn5mrC8VWs2Xhw/exec";
 const partyDate = new Date("October 17, 2026 17:30:00").getTime();
 
-function updateCountdown() {
+// ⏳ COUNTDOWN
+setInterval(() => {
     const now = new Date().getTime();
-    const distance = partyDate - now;
+    const d = partyDate - now;
 
-    if (distance < 0) {
-        document.getElementById("countdown").innerHTML =
-            "🎉 The party has started!";
-        return;
-    }
+    if (d < 0) return document.getElementById("countdown").innerHTML = "🎉 LIVE NOW";
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    const days = Math.floor(d / (1000*60*60*24));
+    const hours = Math.floor((d%(1000*60*60*24))/(1000*60*60));
+    const mins = Math.floor((d%(1000*60*60))/(1000*60));
+    const secs = Math.floor((d%(1000*60))/1000);
 
     document.getElementById("countdown").innerHTML =
-        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    `${days}d ${hours}h ${mins}m ${secs}s`;
+}, 1000);
+
+
+// 📊 LIVE RSVP COUNT (from sheet)
+async function loadCount() {
+    try {
+        const res = await fetch(SHEET_URL + "?action=count");
+        const data = await res.json();
+        document.getElementById("liveCount").innerText =
+            `🎟️ ${data.count || 0} guests attending`;
+    } catch {
+        document.getElementById("liveCount").innerText =
+            "🎟️ RSVP list loading...";
+    }
 }
-
-setInterval(updateCountdown, 1000);
-updateCountdown();
+loadCount();
 
 
-// RSVP FUNCTION
+// 🎊 RSVP
 async function submitRSVP() {
 
     const name = document.getElementById("guestName").value.trim();
     const attendance = document.getElementById("attendance").value;
+    const meal = document.getElementById("meal").value;
+    const plusOne = document.getElementById("plusOne").value;
 
-    if (!name || !attendance) {
-        alert("Please enter your name and RSVP status.");
+    if (!name || !attendance || !meal || plusOne === "") {
+        alert("Please complete all fields!");
         return;
     }
 
-    const payload = {
-        name,
-        attendance
-    };
-
     try {
-        await fetch("https://script.google.com/macros/s/AKfycbziFX-RTZ6k0n0-cvS0QcyUZAtDsLJfgXX5xqMNgnwYd_PrawgnEMs8Pn5mrC8VWs2Xhw/exec", {
+        const res = await fetch(SHEET_URL, {
             method: "POST",
-            body: JSON.stringify(payload)
+            body: JSON.stringify({ name, attendance, meal, plusOne })
         });
+
+        const result = await res.json();
+
+        if (result.duplicate) {
+            alert("You already RSVP’d!");
+            return;
+        }
 
         document.getElementById("eventDetails").style.display = "block";
 
         document.getElementById("message").innerHTML =
-            attendance === "Yes"
-            ? `🎉 Thanks <strong>${name}</strong>! We can't wait to celebrate with you!`
-            : `❤️ Thanks <strong>${name}</strong>, we'll miss you!`;
+        attendance === "Yes"
+        ? `🎉 Welcome <b>${name}</b>! See you there!`
+        : `💖 Thanks <b>${name}</b>!`;
 
-    } catch (err) {
-        alert("There was a problem submitting your RSVP.");
-        console.error(err);
+        if (attendance === "Yes") {
+            confetti({
+                particleCount: 150,
+                spread: 80,
+                origin: { y: 0.6 }
+            });
+        }
+
+        loadCount();
+
+    } catch (e) {
+        alert("Error sending RSVP.");
+        console.error(e);
     }
 }
+
 </script>
 
 </body>
