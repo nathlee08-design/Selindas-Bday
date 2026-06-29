@@ -1,0 +1,228 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selinda's 40th Birthday 🎉</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff6b81, #f9ca24);
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    max-width: 650px;
+    width: 100%;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+h1 {
+    color: #e84393;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+#countdownBox {
+    background: #fff4f8;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+#countdown {
+    font-size: 28px;
+    font-weight: bold;
+    color: #e84393;
+}
+
+input,
+select,
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+button {
+    background: #e84393;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #d63384;
+}
+
+#eventDetails {
+    display: none;
+    margin-top: 25px;
+}
+
+.details {
+    background: #fff4f8;
+    padding: 15px;
+    border-radius: 15px;
+    margin-top: 15px;
+}
+
+iframe {
+    width: 100%;
+    height: 300px;
+    border: none;
+    border-radius: 15px;
+    margin-top: 15px;
+}
+
+a {
+    color: #e84393;
+    text-decoration: none;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎉 Selinda's 40th Birthday 🎉</h1>
+    <p class="subtitle">Please RSVP below</p>
+
+    <div id="countdownBox">
+        <h2>⏳ Countdown to the Party</h2>
+        <div id="countdown"></div>
+    </div>
+
+    <input
+        type="text"
+        id="guestName"
+        placeholder="Enter your name"
+    >
+
+    <select id="attendance">
+        <option value="">Will you be attending?</option>
+        <option value="Yes">Yes, I'll be there! 🎊</option>
+        <option value="No">Sorry, I can't make it 😢</option>
+    </select>
+
+    <button onclick="submitRSVP()">
+        Submit RSVP
+    </button>
+
+    <div id="eventDetails">
+
+        <h2>Thank You!</h2>
+
+        <p id="message"></p>
+
+        <div class="details">
+            <h3>📍 Event Details</h3>
+            <p><strong>Tiger Korean Pocha</strong></p>
+            <p>Haymarket, Sydney NSW</p>
+            <p>🕠 5:30 PM</p>
+        </div>
+
+        <iframe
+            src="https://maps.google.com/maps?q=Tiger%20Korean%20Pocha%20Haymarket&t=&z=15&ie=UTF8&iwloc=&output=embed">
+        </iframe>
+
+        <p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Tiger+Korean+Pocha+Haymarket"
+               target="_blank">
+                Open in Google Maps
+            </a>
+        </p>
+
+    </div>
+
+</div>
+
+<script>
+
+// CHANGE THIS DATE TO THE ACTUAL PARTY DATE
+const partyDate = new Date("October 17, 2026 17:30:00").getTime();
+
+function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = partyDate - now;
+
+    if (distance < 0) {
+        document.getElementById("countdown").innerHTML =
+            "🎉 The party has started!";
+        return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24))
+        / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor(
+        (distance % (1000 * 60 * 60))
+        / (1000 * 60)
+    );
+    const seconds = Math.floor(
+        (distance % (1000 * 60))
+        / 1000
+    );
+
+    document.getElementById("countdown").innerHTML =
+        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+function submitRSVP() {
+
+    const name =
+        document.getElementById("guestName").value.trim();
+
+    const attendance =
+        document.getElementById("attendance").value;
+
+    if (!name || !attendance) {
+        alert("Please enter your name and RSVP status.");
+        return;
+    }
+
+    document.getElementById("eventDetails").style.display =
+        "block";
+
+    if (attendance === "Yes") {
+        document.getElementById("message").innerHTML =
+            `🎉 Thanks <strong>${name}</strong>! We can't wait to celebrate with you!`;
+    } else {
+        document.getElementById("message").innerHTML =
+            `❤️ Thanks <strong>${name}</strong> for letting us know. We'll miss you!`;
+    }
+}
+
+</script>
+
+</body>
+</html>
+```
